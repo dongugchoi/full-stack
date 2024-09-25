@@ -1,7 +1,0 @@
-package ex03;
-
-// 공통부분 추출하기
-
-public class Unit {
-	
-}

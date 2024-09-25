@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Rename type &apos;ex02_list.ex03_ArrayList&apos; to &apos;Ex03_ArrayList&apos;&#x0D;&#x0A;- Original project: &apos;Ex_0813&apos;&#x0D;&#x0A;- Original element: &apos;ex02_list.ex03_ArrayList&apos;&#x0D;&#x0A;- Renamed element: &apos;ex02_list.Ex03_ArrayList&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;ex03_ArrayList&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;ex02_list{ex03_ArrayList.java[ex03_ArrayList" matchStrategy="1" name="Ex03_ArrayList" qualified="false" references="true" similarDeclarations="false" stamp="1723520399649" textual="false" version="1.0"/>
-</session>
