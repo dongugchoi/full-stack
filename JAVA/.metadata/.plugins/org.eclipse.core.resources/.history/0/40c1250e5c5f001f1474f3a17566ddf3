@@ -1,0 +1,15 @@
+package ex_test;
+
+import java.util.Random;
+
+public class Ex03 {
+	public static void main(String[] args) {
+		
+		Random rnd = new Random(5000);
+		
+		int money = 10 *(rnd.nextInt(50)+1);
+		
+		System.out.println(money);
+		
+	}
+}

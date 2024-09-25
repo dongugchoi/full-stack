@@ -1,0 +1,12 @@
+package ex02;
+
+public class Ex02_02Main extends Ex02_02{
+		public static void main(String[] args) {
+			
+			Scanner sc = new Scanner(System.in);
+			
+			System.out.println("섭씨 : " +fToc(3));
+			
+			
+		}
+}

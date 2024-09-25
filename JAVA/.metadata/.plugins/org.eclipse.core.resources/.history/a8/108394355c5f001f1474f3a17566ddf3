@@ -1,0 +1,35 @@
+package ex_test;
+
+import java.util.Random;
+
+public class Ex03 {
+	 public static void main(String[] args) {
+	        Random random = new Random();
+	        
+	        // 10부터 5000 사이의 난수 생성
+	        int amount = 10 * (random.nextInt(500) + 1); // 10, 20, ..., 5000 중 하나
+
+	        // 생성된 난수 출력
+	        System.out.println("생성된 난수: " + amount + "원");
+	        
+	        // 동전의 종류와 값을 배열로 정의
+	        int[] coins = {500, 100, 50, 10};
+	        int[] counts = new int[coins.length];
+	        
+	        // 동전 개수 계산
+	        int remainingAmount = amount;
+	        for (int i = 0; i < coins.length; i++) {
+	            counts[i] = remainingAmount / coins[i];
+	            remainingAmount %= coins[i];
+	        }
+	        
+	        // 결과 출력
+	        System.out.println("필요한 동전 개수:");
+	        for (int i = 0; i < coins.length; i++) {
+	            if (counts[i] > 0) {
+	                System.out.println(coins[i] + "원 : " + counts[i] + "개");
+	            }
+	        }
+	    }
+	}
+}

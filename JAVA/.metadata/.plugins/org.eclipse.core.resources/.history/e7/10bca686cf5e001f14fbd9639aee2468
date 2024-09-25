@@ -1,0 +1,5 @@
+package Ex03_annotation;
+
+public interface TestInfo {
+
+}
