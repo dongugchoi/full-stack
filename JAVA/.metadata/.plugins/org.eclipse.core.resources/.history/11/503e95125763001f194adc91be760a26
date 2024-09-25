@@ -1,0 +1,19 @@
+package ex01;
+
+
+public class EX {  
+		  public static void main(String args[]) { 
+		    int a[][]=new int [3][3];
+		    init(a);
+		    //data(a);
+		    //prnt(a);
+		  } 
+		 
+		  static void init(int a[][]){
+		    for(int i=0; i<3;i++)
+		      for(int j=0; j<3;j++)
+		        a[i][j]=0;
+		  }
+		 
+		}
+

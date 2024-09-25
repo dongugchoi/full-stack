@@ -1,0 +1,31 @@
+package ex01_bufferd;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+// -> 묶어서 import java.io.*; 
+
+
+public class ex_test {
+    public static void main(String[] args) throws IOException {
+
+    		
+    		 
+    		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    		System.out.println("정수 입력 : ");
+    		br.readLine();	// N 은 쓸모가 없으므로 입력만 받는다.
+    		
+    		int sum = 0;
+    		
+    		for(byte value : br.readLine().getBytes()) {
+    			sum += (value - '0');	// 또는 (a-48)
+    		}
+    		
+    		System.out.print(sum);
+    		
+    	
+    		
+    	
+    }
+}
