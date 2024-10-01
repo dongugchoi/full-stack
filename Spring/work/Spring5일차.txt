@@ -1,0 +1,118 @@
+Todo서비스
+
+CRUD
+
+요청시
+리퀘스트 -> 컨트롤러 -> 서비스 -> 레포지토리 -> DB
+
+응답
+DB -> 레포지토리 -> 서비스 -> 컨트롤러 -> 리스폰
+
+추가, 수정 : sava()
+조회 : findAll(), findByOO()
+삭제 : delete()
+
+조회	@GetMapping f(){}
+ㄴ 전체조회
+ㄴ 특정유저가 작성한 내용만 조회
+추가	@PostMapping
+수정	@PutMapping
+삭제	@DeleteMapping
+
+JPA가 메서드의 이름을 읽어서 쿼리문을 생성을 해준다.
+findBy : 특정 조건에 맞는 데이터를 조회
+countBy : 특정 조건에 맞는 데이터의 개수를 조회
+deleteBy : 특정 조건에 맞는 데이터를 삭제
+existsBy : 특정 조건에 맞는 데이터가 존재하는지 여부를 확인
+
+메서드명에 다양한 조건자를 함께 사용할 수 있다.
+And : 두 조건을 모두 만족하는 데이터 조회
+Or : 두 조건 중 하나라도 만족하는 데이터 조회
+Between : 두 값 사이에 있는 데이터 조회
+Less Than / Greater Than : 특정 값ㅅ보다 작은 또는 큰 데이터 조회
+Like : 부분 일치 검색
+
+//userName 이 "John"인 사람 찾기
+
+List<User> findByUserName(String name)
+
+//나이가 30보다 큰 사용자 찾기
+List<User> findByAgeGreaterThan(int age)
+
+//이름이 "John"이고 나이가 30보다 많은 사용자 찾기
+List<User> findByUsernameAndAgeGreaterThan(String name, int age)
+
+//이름이 "John"이거나 나이가 30보다 많은 사용자 찾기
+List<User> findByUsernameOrAgeGreaterThan(String name, int age)
+
+
+사용자 관리 시스템
+
+프로젝트 생성
+group : com.korea
+artifact : user
+
+필요라이브러리
+Spirng Web
+H2
+lombok
+Spring Data JPA
+
+상품관리 시스템만들기
+-제품의 정보를 관리하는 기능을 갖는 API 만들기
+
+프로젝트 생성하기
+group : com.korea
+artifact : product
+
+필요 라이브러리
+Spring web
+h2
+lombok
+Spring Data JPA
+
+ProductEntity
+-id,name,description.price를 필드로 갖는다.
+-ids는 기본키로 설정한다
+-매핑되는 테이블은 products로 한다.
+
+ProductDTO
+-클라이언트와 데이터 교환을 위한 ProductDTO클래스
+-id,name,dewscription,price를 필드로 갖는다.
+-Entity -> DTO, DTO -> Entity로 변환하는 기능을 갖는다.
+
+상품 추가하기
+ProductService 클래스
+-addProduct()메서드 만들기
+
+ProductController
+메서드명 : addProduct()
+-ResponseEntity에 반환받은 ProductDTO 응답바디에 실어서 보내기
+
+상품조회하기
+ProductService
+-getFilterredProducts(Double minPrice, String name)
+-반환형 List<ProductDTO>
+- 매개변수에 아무것도 안들어왔을 때 전체 조회
+- minPrice가 있으면 minPrice금액 이상 제품들만 조회
+- name에 값이 있으면 name을 포함하는 제품들만 조회
+-minPrice랑 name값이 같이 들어오면 minPrice이상이면서 name값을 포함하는 제품 조회
+
+ProductController
+HTTP메서드 : GET
+메서드명 : getFilteredProducts(Double minPrice, String name)
+힌트 @RequestParam 사용하기
+
+상품 수정하기
+id를 통해서 제품의 내용 수정하기
+ProductService
+-updateProduct()
+-db에 들어있는지 검증을 먼저 한다음에
+-있으면 수정하려는 값으로 내용을 변경하고 반환
+-없으면 그냥 null 반환
+
+ProductController
+HTTP 메서드 : PUT
+메서드명 : updateProduct()
+리소스 :/{id}
+- RequestBody로 수정하려는 데이터를 보내야함
