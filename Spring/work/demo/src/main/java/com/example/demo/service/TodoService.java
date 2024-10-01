@@ -26,7 +26,7 @@ public class TodoService {
 		//TodoEntity 생성
 		TodoEntity entity = TodoEntity.builder().title("My first todo item").build();
 		//TodoEntity 저장
-		//sava() : insert
+		//save() : insert
 		repository.save(entity);
 		//TodoEntity 검색
 		//findById(entity.getId()) 기본키를 이용해 db에 저장된 TodoEntity찾기
@@ -107,7 +107,7 @@ public class TodoService {
 		//전달된 TodoEntity가 null인지 확인합니다.
 		if(entity == null) {
 			log.warn("Entity cannot be null.");
-			throw new RuntimeException("Entity cannot be null");
+			throw new RuntimeException("Entity");
 		}
 		
 		//userId가 안넘어왔을 때

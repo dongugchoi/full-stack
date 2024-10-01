@@ -155,7 +155,7 @@ public class TodoController {
 		try {
 	
 			String temporaryUserId = "temporary-user"; //임시 유저 아이디
-			//1. 엔티티로 변경
+			//1. 엔티티로 변경 
 			TodoEntity entity = TodoDTO.toEntity(dto);
 			//2. 임시 유저 아이디 설정.
 			entity.setUserId(temporaryUserId);

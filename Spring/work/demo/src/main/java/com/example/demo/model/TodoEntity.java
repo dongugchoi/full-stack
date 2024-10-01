@@ -34,7 +34,7 @@ public class TodoEntity {
    //@GenericGenerator : 나만의 제너레이터를 사용하고싶을 때 이용하는 어노테이션
    @GenericGenerator(name="system-uuid", strategy="uuid")
    private String id;//이 객체의 id
-   private String userId;//이 객체를 생성한 유저의 아이디
+   private String userId ;//이 객체를 생성한 유저의 아이디
    private String title;//Todo 타이틀 ex)운동하기
    private boolean done;//true - todo를 완료한경우(checked)
 }
