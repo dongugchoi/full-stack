@@ -3,6 +3,7 @@ package com.example.product.Controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,22 +45,25 @@ public class ProductController {
     }
     
     // 상품 수정하기
-    @PutMapping("/{id}") // URL에서 상품 ID를 받음
-    public ResponseEntity<List<ProductDTO>> updateProduct(
-        @PathVariable Integer id, // URL 경로에서 ID를 가져옴
-        @RequestBody ProductDTO dto) { // 요청 본문에서 수정할 상품 정보를 받음
-        
-        // DTO에 ID 설정 (수정할 상품의 ID)
-        dto.setId(id);
-        
-        // 상품 업데이트 메서드 호출
-        List<ProductDTO> updatedProducts = productService.updateProduct(ProductDTO.toEntity(dto));
-        
-        if (updatedProducts == null) {
-            return ResponseEntity.notFound().build(); // 상품이 존재하지 않으면 404 반환
-        }
-        
-        return ResponseEntity.ok(updatedProducts); // 수정된 상품 리스트 반환
-    }
+   @PutMapping("/{id}")
+   public ResponseEntity<?> uupdateProducts(@PathVariable int id, @RequestBody ProductDTO dto){
+	   ProductDTO u_dto = productService.updateProduct(id, dto);
+	   if(u_dto != null) {
+		   return ResponseEntity.ok().body(u_dto);
+	   }
+	   return ResponseEntity.badRequest().body("업데이트가 안됐습니다.");
+   }
+   
+   @DeleteMapping("/{id}")
+   public ResponseEntity<?> deleteProducts(@PathVariable int id){
+	   boolean isDeleted = productService.deleteProduct(id);
+	   if (isDeleted) {
+	        return ResponseEntity.ok("User deleted successfully");
+	    } else {
+	        return ResponseEntity.status(404).body("User not found with id " + id);
+	    }
+		   
+	   
+   }
     
 }

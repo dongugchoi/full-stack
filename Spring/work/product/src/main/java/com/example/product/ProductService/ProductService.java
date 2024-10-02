@@ -65,38 +65,42 @@ public class ProductService {
 		
 	}
 
-	
-	public List<ProductDTO> updateProduct(ProductEntity entity){
-		validate(entity);
+	//상품수정
+	//localhost:9090/product/1
+	//Request Body에 담아서 Controller전달
+	//{
+	//	"id" : 1,
+	//	"name" : 수정할이름,
+	//	"description" : 수정할내용,
+	//  "price" : 수정할가격,
+	//}
+	public ProductDTO updateProduct(int id, ProductDTO dto ){
+		//db에서 id에 해당하는 데이터가 있는지 조회
+		Optional<ProductEntity> original = repository.findById(id); //db와 통신할때는 entity로 한다 제네릭타입은 entity
 		
-		Optional<ProductEntity> original = repository.findById(entity.getId());
-		
+		//있으면 매개변수로 넘어온 dto에 있는 내용으로 기존의 내용을 갱신
 		if(original.isPresent()) {
-			ProductEntity product = original.get();
-			product.setName(entity.getName());
-			product.setPrice(entity.getPrice());
-			product.setDescription(entity.getDescription());
+			ProductEntity entity = original.get();
+			entity.setName(dto.getName());
+			entity.setDescription(dto.getDescription());
+			entity.setPrice(dto.getPrice());
 			
-			repository.save(product);
-			
-			return List.of(new ProductDTO(product));
+			repository.save(entity);
+			return new ProductDTO(entity);
 		}
 		return null;
 	}
 	
-	private void validate(ProductEntity entity) {
-		//전달된 TodoEntity가 null인지 확인합니다.
-		if(entity == null) {
-			log.warn("Entity cannot be null.");
-			throw new RuntimeException("Entity");
+	public boolean deleteProduct(int id) {
+		Optional<ProductEntity> original = repository.findById(id);
+		if(original.isPresent()) {
+			repository.deleteById(id);
+			return true;
 		}
-		
-		//userId가 안넘어왔을 때
-		if(entity.getId() == null) {
-			log.warn("Unknown user");
-			throw new RuntimeException("Unknown user");
-		}
-		
+		return false;
 	}
+	
+
+	
 	
 }

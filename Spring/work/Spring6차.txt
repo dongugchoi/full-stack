@@ -1,0 +1,29 @@
+DTO
+클라이언트랑 주고받을때 데이터 담는 그릇
+
+Entity
+서비스레이어랑 DB랑 데이터를 주고받을 때
+
+요청 -> OOController -> OOService -> OORepository -> DB
+
+IoC(Inversion Of Controll
+
+원래는 우리가 객체를 만들고 사용
+
+객체로 만들고 싶은 클래스에 
+@RestController, @Repository, @Service, @Component
+어노테이션을 앞에 붙이면 애플리케이션을 실행할 때 스프링이
+메모리에 객체를 다 올려준다.
+
+객체 컨테이너라고 하는 곳에 Map 형태로 저장한다.
+
+내가 필요한 곳에 객체를 주입시켜주는 행위를 의존성 주입이라고 한다.
+(Dependency Injection)
+
+조회
+추가	DTO -> Entity
+	Controller 	-> Service	-> H2(DB)
+수정	(맞는 메서드실행)	     find(), save(),delete()  
+삭제					DTO <- Entity
+
+	
