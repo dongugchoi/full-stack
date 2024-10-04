@@ -159,6 +159,7 @@ public class TodoController {
 			TodoEntity entity = TodoDTO.toEntity(dto);
 			//2. 임시 유저 아이디 설정.
 			entity.setUserId(temporaryUserId);
+			
 			//3. 서비스를 이용해 entity를 삭제
 			List<TodoEntity> entities = service.delete(entity);
 			//4. 자바 스트림을 이용해 반환된 엔티티 리스트들을 TodoDTO리스트로 변환
