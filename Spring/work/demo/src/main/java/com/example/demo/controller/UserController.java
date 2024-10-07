@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +36,8 @@ public class UserController {
          //UserDTO를 기반으로 UserEntity객체를 생성한다.
          UserEntity user = UserEntity.builder()
                         .username(userDTO.getUsername())
-                        .password(userDTO.getPassword())
+                        //사용자에게 입력받은 비밀번호 암호화
+                        .password(passwordEncoder.encode(userDTO.getPassword()))
                         .build();
          //UserService를 이용해 새로 만든 UserEntity를 데이터베이스에 저장한다.
          UserEntity registeredUser = userService.create(user);
@@ -57,13 +60,15 @@ public class UserController {
       }
    }
    
+   private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+   
    //아이디와 비밀번호를 입력받아 로그인 처리
    @PostMapping("/signin")
-   public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
-      //요청본문으로 전달된 UserDTO의 username과 password를 기반으로 유저를 조회
-      UserEntity user = userService.getByCredentials(
-            userDTO.getUsername(), 
-            userDTO.getPassword());
+	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
+		UserEntity user = userService.getByCredentials(
+						userDTO.getUsername(),
+						userDTO.getPassword(),
+						passwordEncoder);
       
       //사용자가 존재한다면
       if(user != null) {
