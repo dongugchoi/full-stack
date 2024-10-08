@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App'; //App 컴포넌트 import
 import reportWebVitals from './reportWebVitals';
+import AppRouter from './AppRouter';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
-
+    <AppRouter tab="home"/>
   </React.StrictMode>
 );
 

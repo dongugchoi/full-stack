@@ -6,9 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Qualifier("desktop") @Primary
-//@Primary를 작성하면 default가 된다.
-public class Desktop implements Computer{
-	
+public class Desktop implements Computer1{
 	@Override
 	public int getScreenWidth() {
 		return 1920;
