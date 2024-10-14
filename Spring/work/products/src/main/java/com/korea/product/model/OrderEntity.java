@@ -21,19 +21,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "Orders")
+@Table(name="orders")
 public class OrderEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int orderId;
-    
-    // ProductEntity와 다대일 관계 설정
-    @ManyToOne
-    @JoinColumn(name = "productId", nullable = false)
-    private ProductEntity product;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "id", nullable = false)
+	private ProductEntity product;
+	
 	private int productCount;
 	
 	@CreationTimestamp
 	private LocalDateTime orderDate;
+	
+	
 }

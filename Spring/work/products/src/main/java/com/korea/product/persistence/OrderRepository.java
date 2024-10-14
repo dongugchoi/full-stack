@@ -11,15 +11,13 @@ import com.korea.product.model.OrderEntity;
 @Repository
 public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 
-	@Query("SELECT o.orderId, " +
-		       "o.product.id, " + // 상품 ID
-		       "o.product.name, " +
-		       "o.productCount, " +
-		       "o.product.price, " +
-		       "(o.productCount * o.product.price) AS totalPrice, " + 
-		       "o.orderDate " + 
-		       "FROM OrderEntity o")
-		public List<Object[]> findAllOrderTotalPrices();
-
+   @Query("SELECT o.orderId," 
+            +"o.product.name," 
+            +"o.productCount,"
+            +"o.product.price," 
+            +"(o.productCount * o.product.price) AS totalPrice, "
+            +"o.orderDate "
+            +"FROM OrderEntity o")
+      List<Object[]> findAllOrderTotalPrices();
 
 }

@@ -1,70 +1,80 @@
-package com.korea.user.Controller;
+package com.korea.user.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.korea.user.dto.ResponseDTO;
 import com.korea.user.dto.UserDTO;
 import com.korea.user.model.UserEntity;
+import com.korea.user.security.TokenProvider;
 import com.korea.user.service.UserService;
 
-import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/users")
-@RequiredArgsConstructor
 public class UserController {
-
-    private final UserService userService;  
-
-
-	// 사용자 생성
-	@PostMapping
-	public ResponseEntity<List<UserDTO>> createUser(@RequestBody UserDTO dto) {
-		UserEntity entity = UserDTO.toEntity(dto);
-		List<UserDTO> users = userService.create(entity);
-		return ResponseEntity.ok().body(users);
+	
+	@Autowired
+	private UserService service;
+	
+	@Autowired
+	private TokenProvider tokenProvider;//토큰을 발급해줌
+	
+	//id중복조회
+	@GetMapping("idCheck")
+	public ResponseEntity<?> isIdDuplicate(@RequestBody UserDTO dto){
+		boolean check = service.isldDuplicated(dto.getId());
+		ResponseDTO<Boolean> response = ResponseDTO.<Boolean>builder().value(check).build();
+		return ResponseEntity.ok().body(response);
 	}
 	
-	//사용자 조회
-	@GetMapping
-	public ResponseEntity<List<UserDTO>> getAllUsers() {
-	    List<UserDTO> users = userService.getAllUsers();
-	    return ResponseEntity.ok().body(users);
+	@PostMapping("signup")
+	public ResponseEntity<?> signUp(@RequestBody UserDTO dto){
+		List<UserDTO> dtos =service.insert(dto);
+		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(dtos).build();
+		return ResponseEntity.ok().body(response);
 	}
 	
-	//이메일로 조회
-	@GetMapping("/{email}")
-	public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email){
-		UserDTO user  =userService.getUserbyEmail(email);
-		return ResponseEntity.ok().body(user);
+	//모든 유저 조회
+	@GetMapping("allUsers")
+	public ResponseEntity<?> allUsers(){
+		List<UserDTO> dtos = service.allUser();
+		ResponseDTO<UserDTO> response = ResponseDTO.<UserDTO>builder().data(dtos).build();
+		return ResponseEntity.ok().body(response);
 	}
 	
-	//id값을 사용한 사용자 정보 수정
-	@PutMapping
-	public ResponseEntity<?> updateUser(@RequestBody UserDTO dto) {
-	    UserEntity entity = UserDTO.toEntity(dto);
-	    List<UserDTO> updatedUser = userService.updateUser(entity);
-
-	    return ResponseEntity.ok(updatedUser);
-	    }
-	
-	// 사용자 삭제 (ID 기반)
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-	    boolean isDeleted = userService.deleteUser(id);
-	    if (isDeleted) {
-	        return ResponseEntity.ok("User deleted successfully");
-	    } else {
-	        return ResponseEntity.status(404).body("User not found with id " + id);
-	    }
+	//로그인
+	@PostMapping("/signin")
+	public ResponseEntity<?> authenticate(@RequestBody UserDTO dto){
+		//아이디와 비밀번호를 통해 유저를 반환받는다.
+		UserEntity user = service.getByCredential(dto.getId(), dto.getPwd());
+		
+		
+		//조회가 됬다면
+		if(user != null) {
+			//토큰을 발급해준다.
+			final String token = tokenProvider.create(user);
+			
+			final UserDTO responseUserDTO = UserDTO.builder()
+											.id(user.getId())
+											.idx(user.getIdx())
+											.name(user.getName())
+											.email(user.getEmail())
+											.token(token)
+											.build();
+			return ResponseEntity.ok().body(responseUserDTO);
+		}else {
+			ResponseDTO responseDTO = ResponseDTO.builder().error("Login failed").build();
+			return ResponseEntity.badRequest().body(responseDTO);	
+		}
+		
 	}
+	
 }

@@ -29,7 +29,7 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	private String name;
-    private int stock;
+    private int inventory;
     private int price;
     @CreationTimestamp //insert쿼리가 발생할 때 시간 값을 적용 시켜준다.
     private LocalDateTime adddate;
