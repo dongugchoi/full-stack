@@ -1,37 +1,36 @@
 import React from "react";
+import "./index.css";
 import App from "./App";
-import Login from "./users/Login";
-import Signup from "./users/Signup";
+import Login from "./Login";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
+import {Typography,Box} from "@mui/material";
+import Signup from './Signup';
 
-//import {Typography,Box} from "@mui/material";
-//import Signup from './Signup';
+function Copyright(){
+    return(
+        <Typography variant="body2" color="textSecondary" align="center">
+            {"Copyright "}
+            fsoftwareengineer, {new Date().getFullYear()}
+            {"."}
+        </Typography>
+    );
+}
 
-// function Copyright(){
-//     return(
-//         <Typography variant="body2" color="textSecondary" align="center">
-//             {"Copyright "}
-//             fsoftwareengineer, {new Date().getFullYear()}
-//             {"."}
-//         </Typography>
-//     );
-// }
-
-export default function AppRouter(){
+function AppRouter(){
     return(
         <div>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/main" element={<App />}/>
-                    <Route path="/" element={<Login />}/>
+                    <Route path="/" element={<App />}/>
+                    <Route path="/login" element={<Login />}/>
                     <Route path="/Signup" element={<Signup />}/>
                 </Routes>
             </BrowserRouter>
-            {/* <Box mt={5}>
+            <Box mt={5}>
                 <Copyright />
-            </Box> */}
+            </Box>
         </div>
     )
 }
-
+export default AppRouter;
 

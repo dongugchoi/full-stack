@@ -69,21 +69,24 @@ public class UserService {
 		return null;
 	}
 	
-	public UserEntity userModify(UserEntity entity) {
-		Optional<UserEntity> original = userRepository.findByUserId(entity.getUserId());
-		if(original.isPresent()) {
-			UserEntity user = original.get();
-			user.setUserId(entity.getUserId());
-			user.setPwd(entity.getPwd());
-			user.setName(entity.getName());
-			user.setEmail(entity.getEmail());
-			
-			userRepository.save(user);
-		}
-		return 
+	//수정하기
+	public void modify(UserDTO dto) {
+	    // 1. 원본을 db에서 꺼낸다.
+	    Optional<UserEntity> original = userRepository.findByUserId(dto.getUserId());
+	    //Optional : 값이 있거나 없음을 명시적으로 표현할 수 있게 해주는 클래스
+	    if (original.isPresent()) {
+	        UserEntity userEntity = original.get();
+	        
+	        // 2. 내가 가져온 내용으로 객체를 setting 한다.
+	        userEntity.setName(dto.getName());
+	        userEntity.setEmail(dto.getEmail());
+	        userEntity.setPwd(dto.getPwd());
+
+	        
+	        // 3. 수정한 내용을 db에 저장한다.
+	        userRepository.save(userEntity);
+	    }
 	}
-	
-	
 	
 	
 	

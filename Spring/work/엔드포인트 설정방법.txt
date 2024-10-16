@@ -1,0 +1,13 @@
+awseb-e-syyzgpy6pn-stack-awsebrdsdatabase-lvnzy83wvlw3.cfw0wcqi0ijw.ap-northeast-2.rds.amazonaws.com
+ㄴ 엔드포인트  RDS -> 데이터베이스 연결 및 보안에서 확인
+
+powershell
+d:
+
+D:\국비\web0900_cdu\4.Spirng\full-stack\Spring\work\demo
+d드라이브에 gradlew가 있는 폴더위치를 선택 
+./gradlew build 를하면 jar파일이 생성
+
+gradle refresh해주고 밑에 코드 입력
+
+./gradlew clean build
