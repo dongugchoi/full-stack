@@ -11,8 +11,8 @@ let backendHost;
 const hostname = window && window.location &&window.location.hostname;
 
 if(hostname == "localhost"){
-    // backendHost = "http://localhost:5000";
-    backendHost = "http://springboot-developer2-env.eba-xjdtfkdj.ap-northeast-2.elasticbeanstalk.com";
+    backendHost = "http://localhost:5000";
+}else{    
+    backendHost = "http://springboot-developer2-env.eba-xjdtfkdj.ap-northeast-2.elasticbeanstalk.com/";
 }
-
 export const API_BASE_URL = `${backendHost}`
