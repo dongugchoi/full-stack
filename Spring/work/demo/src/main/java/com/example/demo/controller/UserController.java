@@ -38,6 +38,7 @@ public class UserController {
 			//UserDTO를 기반으로 UserEntity 객체를 생성한다.
 			UserEntity user = UserEntity.builder()
 					.username(userDTO.getUsername())
+					//사용자에게 입력받은 비밀번호 암호화
 					.password(passwordEncoder.encode(userDTO.getPassword()))
 					.build();
 			
@@ -62,13 +63,16 @@ public class UserController {
 	}
 	
 	//아이디와 비밀번호를 입력받아 로그인처리
-
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
+	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
+		// 요청 본문으로 전달된 UserDTO의 username과 password를 기반으로 유저를 조회한다.
+		//getByCredentials : Service에 있는 id와 password를 전달받아 조회하는 메서드
 		UserEntity user = userService.getByCredentials(
-						userDTO.getUsername(),
-						userDTO.getPassword(),
-						passwordEncoder);
+				userDTO.getUsername(),
+				userDTO.getPassword(),
+				passwordEncoder);
+		
+		 
 		
 		//사용자가 존재한다면
 		if(user != null) {
@@ -77,6 +81,7 @@ public class UserController {
 			//인증에 성공한 경유 유저 정보를 UserDTO로 변환하여 응답에 사용한다.
 			final UserDTO responseUserDTO = UserDTO.builder()
 					.id(user.getId())
+					.username(user.getUsername())
 					.token(token)
 					.build();
 			//성공적으로 인증된 유저 정보를 포함한 HTTP 200 응답을 반환한다.
