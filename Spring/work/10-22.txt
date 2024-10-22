@@ -1,0 +1,37 @@
+http연결 -> 평문으로 데이터를 보냄
+ㄴ 포트 80번, 뒤에 포트를 따로 붙이지 않으면 자동으로 80번으로 할당
+
+https 연결 -> 암호화를 해서 보낸다
+ㄴ 포트 443번 뒤에 포트를 따로 붙이지 않으면 자동으로 443번으로 할당
+ㄴ SSL, TSL과 같은 인증서를 필요로 한다.
+
+사용자가 직접 로그인페이지 요청
+
+사용자가 로그인을 안하고 메인페이지에 접근
+권한이 없기 때문에 우리가 로그인페이지로 강제로 보냄
+유저가 요청을 한 것 처럼 페이지를 리다이렉트
+
+spring: #스프링부트 설정을 위한 최상위 키워드
+  security: #스프링 시큐리티 설정
+    oauth2: #OAuth2 인증관련 설정
+      client: #OAuth2 클라이언트 설정
+        registration: #OAuth2 클라이언트 등록 설정
+          github: #GitHub OAuth2 클라이언트 설정(이름을 github로 정의 구글이면 google, 페이스북이면 facebook)
+            clientId: Ov23liM717IxZ2SKLZB1 #GitHub OAuth2 앱의 Client의 ID(gitHub에서 발급받은 값이 들어감)
+            clientSecret: f2086746e3d4a426c1f02cef70b2fa2de0eab182 #Github OAuth2 앱의 클라이언트 시크릿
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}" 
+			#OAuth2 인증 후 리다이렉션 되는 URL,{baseUrl}은 애플리케이션의 기본 URL,{registrationId}은 클라이언트 등록 ID(여기서는'github')
+            scope: #Github API를 사용할 때 요청할 권한의 범위
+              - user:email # 사용자의 이메일 정보를 요청하는 범위
+              - read:user # 사용자의 기본 프로필 정보를 읽는 범위
+    provider: #OAuth2 제공자 설정
+      github: #Github OAuth2제공자 관련 설정
+        authorization-uri: https://github.com/login/oauth/authorize
+		#사용자를 Github 로그인 페이지로 리다이렉션 하는 URI, Github OAuth2 인증의 시작점
+
+ ./gradlew bootRun --args='--spring.profiles.active=dev --server.port=5000'
+
+ authorization-uri: https://github.com/login/oauth/authorization/github
+
+소셜로그인에서 토큰이 발행되는 부분 소셜로그인을 이용한 인증이
+완료된 다음, 즉 OAuth2.0을 이용한 인증이 모두 끝난다음 발행

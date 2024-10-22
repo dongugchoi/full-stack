@@ -1,0 +1,18 @@
+.container{
+    height: 100vh;
+    color: black;
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    flex-direction: column;
+};
+
+table{
+    color: blue;
+    size: 24px;
+    text-align: center;
+}
+
+.btn2{
+    width: 500px;
+}
