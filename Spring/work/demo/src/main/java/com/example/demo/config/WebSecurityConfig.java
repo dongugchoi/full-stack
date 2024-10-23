@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -17,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.example.demo.security.JwtAuthenticationFilter;
 import com.example.demo.security.OAuthSuccessHandler;
 import com.example.demo.security.OAuthUserServiceImpl;
+import com.example.demo.security.RedirectUrlCokkieFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +33,9 @@ public class WebSecurityConfig {
    
    @Autowired
    private OAuthSuccessHandler oAuthSuccessHandler;
+   
+   @Autowired
+   private RedirectUrlCokkieFilter redirectUrlCokkieFilter;
    
    @Bean
    protected DefaultSecurityFilterChain securityFilterChain(
@@ -52,15 +58,29 @@ public class WebSecurityConfig {
       	.redirectionEndpoint() // 아무 주소도 넣지 않았다면 베이스 URL인 http://localhost:5000으로 리다이렉트한다.
       	.baseUri("/oauth2/callback/*") //oauth2 로그인 설정 / 인증이 성공하면 리다이렉트할 엔드포인트의 URI
       	.and()
+      	.authorizationEndpoint()//OAuth2 인증의 흐름에서 권한 부여 엔드포인트를 설정하기 위한것이다.
+      	//OAuth2에서 클라이언트 애플리케이션이 사용자를 대신해 권한을 요청할 때 사용되는 엔드포인트가 권한 부여 엔드포인트이다.
+      	//사용자는 이 엔드포인트로 리다이렉션되어 권한을 승인하는 과정을 거친다.
+      	.baseUri("/auth/authorize")
+      	//OAuth2 권한 부여 요청을 처리하는 엔드포인트의 기본 URI를 설정하는 것이다.
+      	//즉, 어플리케이션은 사용자가 로그인을 시도할 때 이 엔드포인트를 통해 OAuth2 권한 요청을 수행한다.
+      	.and()
         .userInfoEndpoint() //제공자로부터 사용자 정보를 가져올 때 사용하는 엔드포인트를 설정한다. 
         					//이 부분은 OAuth2 인증이 성공한 후, 사용자 프로필 데이터를 가져오는 역할
         //사용자정보를 처리하는 서비스를 지정하는 메서드
       	.userService(oAuthUserService) //oauth2로그인 설정
       	.and()
-      	.successHandler(oAuthSuccessHandler); //oauth2 인증이 성공한 뒤 실행될 동작을 정희하는 메서드
+      	.successHandler(oAuthSuccessHandler) //oauth2 인증이 성공한 뒤 실행될 동작을 정희  하는 메서드
+      	.and()
+      	.exceptionHandling() 
+      	//시큐리티에서 발생하는 예외상황, 예를 들어 인증되지 않은 사용자나 자원에 접근하려고 할 때 어떤 동작을 할지 정의할 수 있다.
+      	.authenticationEntryPoint(new Http403ForbiddenEntryPoint());
+      	//인증이 필요한 자원에 대해 인증되지 않은 사용자가 접근할 때 403응답을 반환하도록 설정하는 것
       	
       http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
+      
+      http.addFilterAfter(redirectUrlCokkieFilter, OAuth2AuthorizationRequestRedirectFilter.class);
+      
       return http.build();
    }
 
@@ -68,7 +88,7 @@ public class WebSecurityConfig {
    public CorsConfigurationSource corsConfigurationSource() {
       CorsConfiguration configuration = new CorsConfiguration();
       //React 애플리케이션이 실행되는 출처에서 오는 요청을 허용
-      configuration.setAllowedOrigins(Arrays.asList("localhost:3000"
+      configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"
     		  ,"http://app.todo-devel.store"
     		  ,"https://app.todo-devel.store"));
       //HTTP메서드 허용

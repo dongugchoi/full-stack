@@ -46,7 +46,7 @@ public class OAuthUserServiceImpl extends DefaultOAuth2UserService {
 		
 		UserEntity userEntity = null;
 		//유저가 존재하지 않으면 새로 생성한다.
-		if(userRepository.existsByUsername(username)) {
+		if(userRepository.existsByUsername(username)==false) {
 			userEntity = UserEntity.builder()
 					.username(username)
 					.authProvider(authProvider)
