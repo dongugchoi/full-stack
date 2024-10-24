@@ -4,7 +4,8 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import MultiButtons from './MultiButtons';
 import Address from './api/Address';
 import BookSearch from './api/BookSearch';
-
+import './css/address.css'
+import News from './api/News';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
             <Route path="/" element={<MultiButtons />} />
             <Route path="/address" element={<Address />} />
             <Route path="/search" element={<BookSearch />} />
+            <Route path="/news" element={<News />} />
           </Routes>
         </BrowserRouter>
     </div>

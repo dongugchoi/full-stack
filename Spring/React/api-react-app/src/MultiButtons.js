@@ -14,6 +14,9 @@ function MultiButtons(){
             case 'bookSearch':
                 navigate('/search')
                 break;
+            case 'news':
+                navigate('/news')
+                break;
         }
     }
 
@@ -24,6 +27,9 @@ function MultiButtons(){
             </button>
             <button id="bookSearch" onClick={handleButtonClick}>
                 도서찾기 api
+            </button>
+            <button id="news" onClick={handleButtonClick}>
+                뉴스찾기 api
             </button>
         </div>
     );
