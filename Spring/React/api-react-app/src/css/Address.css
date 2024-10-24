@@ -1,0 +1,19 @@
+.form-group{
+    width: 100%;
+    min-width: 600px;
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.form-row{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.form-row-split{
+    display: flex;
+    gap: 10px;
+}
