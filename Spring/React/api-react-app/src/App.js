@@ -6,6 +6,8 @@ import Address from './api/Address';
 import BookSearch from './api/BookSearch';
 import './css/address.css'
 import News from './api/News';
+import MyMap from './api/Map'
+import MyMap2 from './api/Map2';
 
 
 function App() {
@@ -17,6 +19,9 @@ function App() {
             <Route path="/address" element={<Address />} />
             <Route path="/search" element={<BookSearch />} />
             <Route path="/news" element={<News />} />
+            <Route path="/map" element={<MyMap />} />
+            <Route path="/map2" element={<MyMap2 />} />
+
           </Routes>
         </BrowserRouter>
     </div>

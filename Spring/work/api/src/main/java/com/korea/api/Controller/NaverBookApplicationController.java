@@ -45,18 +45,16 @@ public class NaverBookApplicationController {
    }
    
    @GetMapping("/api/news")
-   public Flux<Map<String, Object>> searchNews(@RequestParam String query) {
-       return webClient.get()
-               .uri("https://openapi.naver.com/v1/search/news.json?query={query}", query)
-               .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-               .header("X-Naver-Client-Id", clientId)
-               .header("X-Naver-Client-Secret", clientSecret)
-               .retrieve()
-               .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
-               .flatMapMany(response -> {
-                   List<Map<String, Object>> items = (List<Map<String, Object>>) response.get("items");
-                   return Flux.fromIterable(items);
-               });
+   public Flux<String> searchnews(@RequestParam String query){
+	   return webClient.get()
+			   .uri(uriBuilder -> uriBuilder.path("/news.json")
+			   .queryParam("query", query)
+			   .build())
+			   .header(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE)
+			   .header("X-Naver-Client-Id", clientId)
+			   .header("X-Naver-Client-Secret", clientSecret)
+			   .retrieve() //요청보내기
+			   .bodyToFlux(String.class); //응답을 Mono로 받아 문자열로 변환
    }
 
 
