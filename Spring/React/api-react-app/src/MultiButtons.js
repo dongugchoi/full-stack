@@ -22,10 +22,14 @@ function MultiButtons(){
                 break;
             case 'map2':
                 navigate('/map2')
-                break;         
+                break;    
+            case 'map3':
+                navigate('/map3')
+                break;      
         }
     }
 
+    
     return(
         <div>
             <button id="address" onClick={handleButtonClick}>
@@ -42,6 +46,9 @@ function MultiButtons(){
             </button>
             <button id="map2" onClick={handleButtonClick}>
                 지도보기 api2
+            </button>
+            <button id="map3" onClick={handleButtonClick}>
+                주소+지도
             </button>
         </div>
     );

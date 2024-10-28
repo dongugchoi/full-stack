@@ -8,6 +8,7 @@ import './css/address.css'
 import News from './api/News';
 import MyMap from './api/Map'
 import MyMap2 from './api/Map2';
+import MyMap3 from './api/Map3';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/news" element={<News />} />
             <Route path="/map" element={<MyMap />} />
             <Route path="/map2" element={<MyMap2 />} />
+            <Route path="/map3" element={<MyMap3 />} />
 
           </Routes>
         </BrowserRouter>
