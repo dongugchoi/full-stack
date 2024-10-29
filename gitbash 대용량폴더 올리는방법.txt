@@ -1,18 +1,16 @@
+대용량파일/서브모듈을 일반폴더로 변경
+
 Git LFS(Git Large File Storage) 활성화 대용량 파일을 관리하기 위해 Git LFS를 먼저 설정해야 합니다. 이 작업은 한 번만 하면 됩니다.
 
-bash
-코드 복사
+
 git lfs install
 대용량 파일 Git LFS로 추적 파일 크기가 1GB가 넘는다면, Git LFS를 사용해 해당 파일을 추적합니다. 예를 들어, 친구들이 주로 사용하는 파일(예: MyfirstCli나 my-first-expo)을 추적할 수 있습니다.
 
-bash
-코드 복사
+
 git lfs track "MyfirstCli"
 git lfs track "my-first-expo"
 서브모듈을 일반 폴더로 변환하기 친구들의 프로젝트에서도 서브모듈이 불필요하다면, 서브모듈을 제거하고 일반 폴더로 변환해 커밋하면 됩니다.
 
-bash
-코드 복사
 git rm --cached MyfirstCli
 git rm --cached my-first-expo
 rm -rf MyfirstCli/.git
@@ -22,5 +20,3 @@ rm -rf my-first-expo/.git
 git add MyfirstCli my-first-expo
 git commit -m "Remove submodule and add as regular directories"
 git push origin main
-
-깃허브 대용량파일 올리는방법
