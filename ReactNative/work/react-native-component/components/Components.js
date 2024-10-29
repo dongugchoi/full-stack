@@ -28,6 +28,7 @@ const Components = (props) => {
         onPress={() => props.onPress()}
         >
         <Text style={{color: 'white', fontSize : 24}}>{props.children || props.title}</Text>
+        
     </Pressable>
 )
 }
