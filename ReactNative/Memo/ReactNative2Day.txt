@@ -1,0 +1,24 @@
+1. node.js(LTS)
+LTS(Long Term Service)
+오랜기간 지원하는 버전
+
+2. python3
+
+3. JDK와 안드로이드 스튜디오
+
+
+이벤트
+사용자의 행동에 따라 상호작용 하는 모든 것
+많은 종류의 이벤트가 존재하고, 컴포넌트의 역할에 따라 제공되는 이벤트도
+약간씩 차이가 있다.
+
+press
+onClick과 가장 비슷한 이벤트
+
+클릭했을 때
+onPressIn > onPressOut > onPress 또는
+OnPressIn > onLongPress
+
+change이벤트
+변화를 감지하는 이벤트
+값을 입력하는 TextInput 컴포넌트에서 많이 사용된다.
