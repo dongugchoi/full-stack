@@ -1,0 +1,2 @@
+work/MyfirstCli filter=lfs diff=lfs merge=lfs -text
+work/my-first-expo filter=lfs diff=lfs merge=lfs -text
