@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text } from "react-native";
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import SV from '../src/ScrollView'
 import Components from "../components/Components";
@@ -9,6 +9,7 @@ import Total from "../components/Total";
 import ItemList from "../components/ItemList";
 import EventButton from "../components/EventButton";
 import EventInput from "../components/EventInput";
+import Button from '../components/PressableTest'
 
 const App = () => {
 
@@ -35,8 +36,9 @@ const App = () => {
             {/* <Total  arr={arr}/>
             <ItemList fruits={fruits} />
             <ToggleText /> */}
-            <EventButton />
-            <EventInput />
+            {/* <EventButton />
+            <EventInput /> */}
+            <Button title="PressAble"/>
         </View>
         
     )

@@ -1,0 +1,18 @@
+컴포넌트를 호출 할 때 속성명 = 문자열, 숫자,{변수,객체,함수} 형태로 전달
+<Comp title="제목" />
+해당 함수에서 매개변수에 할당된다..
+
+const Comp =(props) => {
+    console.log(props) -> {"title":"제목", "key",:"value",....}
+}
+
+const Comp =({title})=> {
+    console.log(title)
+}
+
+입력했을 때
+
+터치했을 때
+
+스크롤 했을 때
+
