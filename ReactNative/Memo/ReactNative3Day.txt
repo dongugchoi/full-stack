@@ -16,3 +16,57 @@ const Comp =({title})=> {
 
 스크롤 했을 때
 
+자바스크립트 객체
+
+객체리터럴
+const person ={ key.value.key:value,... }
+
+key -> 프로퍼티
+value -> 프로퍼티의 값
+
+프로퍼티 값에 들어갈 수 있는 타입
+문자열,숫자(정수,실수),boolean,null, 객체, 배열, 함수(객체 안에 정의된 함수를 메서드)
+
+
+//user라는 객체안에 키,값들로 이루어진 프로퍼티가 있다.
+const user = {
+	name : "Alice",
+	age:30,
+	isMarried :true,
+	address : null,
+	contact : {eamil:"alice@example.com",phone:"123-456-789"},
+	hobbies :["reading","sports"],
+	greet(){
+	    console.log();
+	}
+}
+
+justfiyContent
+컴포넌트의 정렬
+
+alignItems
+flexDirection에서 정한 방향과 수직이 되는 방향으로 정렬할 때 사용하는 속성
+
+주 축을 결정하는 flexDirection
+주 축에서 item을 정렬하는 justifyContent
+주 축의 숫직에서 item을 정렬하는 alignItems
+
+그림자
+shadowColor : 그림자 색 설정
+shadowOffset : width와 height값을 지정하여 그림자 거리 설정
+shadowOpacity : 그림자의 불투명도 설정
+shadowRadius : 그림자의 흐름 반경 설정
+
+위 속성들은 Ios에만 적용되는 속성
+
+elevation이라는 속성을 사용해야 android에 적용됨
+
+리액트 네이티브에서 제공하는 Platform이라는 모듈을 이용해 각 플랫폼마다 다른 코드가
+적용되도록 코드를 작성할 수 있다.
+
+스타일드 컴포넌트
+웹의 CSS와는 속성 이름이 다르거나, 타입이 다르거나, 단위를 생략하거나 하는 등 차이
+때문에 불편하게 느끼는 경우가 있다.
+
+CSS-in-JS개념을 적용한 것으로, JavaScript파일 내에서 스타일을 선언하고 컴포넌트로
+관리할 수 있도록 해준다.
