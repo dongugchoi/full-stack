@@ -1,0 +1,27 @@
+{
+    "images": [
+        {
+            "filename": "checkboxsmall1x.png",
+            "idiom": "universal",
+            "scale": "1x",
+            "size": "18x18"
+        },
+        {
+            "filename": "checkboxsmall2x.png",
+            "idiom": "universal",
+            "scale": "2x",
+            "size": "18x18"
+        },
+        {
+            "filename": "checkboxsmall3x.png",
+            "idiom": "universal",
+            "scale": "3x",
+            "size": "18x18"
+        }
+    ],
+    "info": {
+        "author": "xcode",
+        "template-rendering-intent": "template",
+        "version": 1
+    }
+}
