@@ -8,7 +8,6 @@ import Task from "../components/Task";
 import { Dimensions } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import AppLoading from 'expo-app-loading'
 
 
@@ -115,6 +114,7 @@ export default function App() {
                         item={item} 
                         deleteTask={_deleteTask}
                         toggleTask={_toggleTask}
+                        
                         updateTask ={_updateTask}
                         />
                     ))}
