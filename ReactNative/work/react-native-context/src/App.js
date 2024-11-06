@@ -1,22 +1,19 @@
-import React from 'react'
-import styled from 'styled-components'
-import User from './components/User'
+import React from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
+import ThemedComponent from './components/ThemedComponent';
+import { CartProvider } from './contexts/CartContext';
+import CartScreen from './components/CartScreen';
+import { UserProvider } from './contexts/UserContext';
+import HomeScreen from './components/HomeScreen';
 
-const Container = styled.View`
-    flex : 1;
-    background-color : #ffffff;
-    justify-content : center;
-    align-items : center;
-`;
 
-const App = () => {
-    return (
+const App = () => (
+  
+  <UserProvider>
 
-            <Container> 
-             <User /> 
-            </Container>
+      <HomeScreen/>
 
-    )
-}
+  </UserProvider>
+);
 
 export default App;
