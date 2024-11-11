@@ -6,12 +6,13 @@ import BookStackNavigaion from "./navigations/BookStack";
 import UserStackNavigation from "./navigations/UserStack";
 import ShoppingTabNavigation from "./navigations/ShopingTab";
 import ChatTabNavigation from "./navigations/ChatTab";
+import DrawerkNavigation from "./navigations/Drawer";
 
 
 const App = () => {
     return(
     <NavigationContainer>
-        <ChatTabNavigation />
+        <DrawerkNavigation />
     </NavigationContainer>
 
     )
