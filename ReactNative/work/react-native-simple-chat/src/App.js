@@ -5,9 +5,13 @@ import * as Font from 'expo-font'; //사용자 정의 글꼴을 미리 로드하
 import * as SplashScreen from 'expo-splash-screen'; // expo-splash-screen을 불러옴
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from './theme';
+import Navigation from './navigations';
+import { images } from './utils/images';
+
 
 // 스플래시 화면이 자동으로 숨겨지지 않도록 설정하여 초기화 작업이 완료될 때까지 유지함
 SplashScreen.preventAutoHideAsync();
+
 
 const cacheImages = images => {
     // 이미지 캐싱 함수: 문자열로 전달된 URL 이미지와 로컬 파일 이미지에 따라 각각 적절한 캐싱 방식으로 처리
@@ -45,12 +49,21 @@ const App = () => {
     }, []); // 빈 의존성 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행
 
     const _loadAssets = async () => {
-        // 이미지와 폰트를 캐싱하여 리소스를 로드
-        const imageAssets = cacheImages([require('../assets/splash.png')]); // 로컬 스플래시 이미지 캐싱
-        const fontAssets = cacheFonts([]); // 추가적인 폰트가 있다면 이 배열에 추가 가능
-
-        await Promise.all([...imageAssets, ...fontAssets]); // 모든 비동기 작업이 완료될 때까지 기다림
+        const imageAssets = cacheImages([
+            require('../assets/splash.png'),
+            ...Object.values(images),
+        ]);
+        const fontAssets = cacheFonts([]);
+    
+        await Promise.all([...imageAssets, ...fontAssets]);
     };
+
+    return (
+        <ThemeProvider theme={theme}>
+            <StatusBar barStyle="dark-content" />
+            <Navigation />
+        </ThemeProvider>
+    );
 }
 
 export default App;

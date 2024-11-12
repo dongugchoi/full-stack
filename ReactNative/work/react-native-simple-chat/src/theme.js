@@ -10,4 +10,8 @@ const colors = {
 export const theme = {
     background : colors.white,
     text : colors.black,
+    ImageBackground: colors.grey_1,
+    label : colors.grey_1,
+    inputPlaceholder : colors.grey_1,
+    inputBorder : colors.grey_1,
 }
