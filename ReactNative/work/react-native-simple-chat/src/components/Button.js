@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 const TRANSPARENT = 'transparent';
 
-const Container = styled.Pressable`
+const Container = styled.TouchableOpacity`
   background-color: ${({ theme, isFilled }) =>
     isFilled ? theme.buttonBackground : TRANSPARENT};
   align-items: center;
   border-radius: 4px;
   width: 100%;
   padding: 10px;
-  opacity : ${({disabled}) => (disabled ? 0.5 :1) }
+  opacity : ${({disabled}) => (disabled ? 0.5 : 1)};
 `;
 const Title = styled.Text`
   height: 30px;
@@ -21,13 +21,15 @@ const Title = styled.Text`
     isFilled ? theme.buttonTitle : theme.buttonUnfilledTitle};
 `;
 
-const Button = ({ containerStyle, title, onPress, isFilled, disabled}) => {
+//props로 넘겨받은 isFilled값에 따라서 버튼 내부를 채우거나 투명하게 처리하는 버튼
+const Button = ({ containerStyle, title, onPress, isFilled,disabled}) => {
+
   return (
     <Container
       style={containerStyle}
-      onPress={onPress} 
+      onPress={onPress}
       isFilled={isFilled}
-      disabled={disabled} //활성화 여부를 결정
+      disabled={disabled}//활성화 여부를 결정
     >
       <Title isFilled={isFilled}>{title}</Title>
     </Container>
