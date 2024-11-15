@@ -80,7 +80,7 @@ const ChannelCreation = ({navigation}) => {
                     onChangeText={text => setDescription(text)}
                     onSubmitEditing={()=>{
                         setDescription(description.trim());
-                        _handleCreateButtonPress;
+                        _handleCreateButtonPress();
                     }}
                     onBlur={() => setDescription(description.trim())}
                     placeholder="Description"
