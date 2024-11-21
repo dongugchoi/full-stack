@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { BoardContext } from '../context/BoardContext';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import '../css/boardList.css';
 
 const BoardList = () => {
-    // Context에서 boardList와 setBoardList를 가져온다.
-    const { boardList } = useContext(BoardContext);
+    // 게시글 리스트 상태 관리
+    const [boardList, setBoardList] = useState([]);
 
     // 현재 페이지 상태를 관리
     const [currentPage, setCurrentPage] = useState(1);
@@ -15,9 +15,21 @@ const BoardList = () => {
 
     const navigate = useNavigate();
 
-    const handleWritePost = () => {
-        navigate('/writepost');
+    // 백엔드에서 데이터를 가져오는 함수
+    const fetchBoardList = async () => {
+        try {
+            const response = await axios.get('http://localhost:7070/api/board/all');
+            setBoardList(response.data); // 가져온 데이터를 상태로 설정
+            console.log('가져온 데이터:', response.data); // 가져온 데이터 확인
+        } catch (error) {
+            console.error('게시판 데이터를 가져오는 중 오류 발생:', error);
+        }
     };
+
+    // 컴포넌트가 렌더링될 때 데이터를 가져옴
+    useEffect(() => {
+        fetchBoardList();
+    }, []);
 
     // 현재 페이지에서 보여줄 게시글의 마지막 인덱스 계산
     const indexOfLastPost = currentPage * postsPerPage;
@@ -40,6 +52,10 @@ const BoardList = () => {
     const handlePostsPerPageChange = (event) => {
         setPostsPerPage(Number(event.target.value));
         setCurrentPage(1); // 게시물 수 변경 시 첫 번째 페이지로 이동
+    };
+
+    const handleWritePost = () => {
+        navigate('/writepost');
     };
 
     return (
