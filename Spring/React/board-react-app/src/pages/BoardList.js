@@ -7,6 +7,7 @@ const BoardList = () => {
     // 게시글 리스트 상태 관리
     const [boardList, setBoardList] = useState([]);
 
+    
     // 현재 페이지 상태를 관리
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -19,8 +20,10 @@ const BoardList = () => {
     const fetchBoardList = async () => {
         try {
             const response = await axios.get('http://localhost:7070/api/board/all');
-            setBoardList(response.data); // 가져온 데이터를 상태로 설정
-            console.log('가져온 데이터:', response.data); // 가져온 데이터 확인
+            //response.data에 들어있는 내용
+            //error와 data이다.
+            setBoardList(response.data.data); // 가져온 데이터를 상태로 설정
+            console.log('가져온 데이터:', response.data.data); // 가져온 데이터 확인
         } catch (error) {
             console.error('게시판 데이터를 가져오는 중 오류 발생:', error);
         }
@@ -71,13 +74,13 @@ const BoardList = () => {
 
             {/* 게시글 목록 */}
             <ul className='board-posts'>
-                {currentPosts.map((board) => (
+                {boardList.length > 0 ? (currentPosts.map((board) => (
                     <li key={board.id} className='board-post-item'>
                         <Link to={`/postdetail/${board.id}`}>{board.title}</Link>
                         <span> | 작성자: {board.author}</span>
                         <span> | 작성 시간: {board.writingTime}</span>
                     </li>
-                ))}
+                ))) : (<p>게시글이 없습니다.</p>)}
             </ul>
 
             {/* 페이지당 게시물 수를 선택하는 드롭다운 */}

@@ -3,15 +3,19 @@
 package com.korea.boardService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.korea.boardDTO.BoardDTO;
 import com.korea.boardEntity.BoardEntity;
 import com.korea.boardRepository.BoardRepository;
 
+import lombok.AllArgsConstructor;
+
+
 @Service // 서비스 계층임을 명시
+@AllArgsConstructor
 public class BoardService {
 
     private final BoardRepository repository;
@@ -19,29 +23,30 @@ public class BoardService {
 
     // 1. 전체 조회 (/all)
     public List<BoardDTO> getAllPosts(){
-    	return repository.findAll().stream().map(this::);
+    	//repository.findAll()의 반환값 List<BoardEntity>
+    	return repository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+    	
+    	
     }
 
-    // 1-1. 한 건 조회 (/get/{id})
-    public BoardEntity getBoardById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+  
+    //Entity -> DTO 변환함수
+    private BoardDTO convertToDTO(BoardEntity board) {
+    	return BoardDTO.builder()
+    			.id(board.getId())
+    			.title(board.getTitle())
+    			.writingTime(board.getWritingTime())
+    			.content(board.getContent())
+    			.build();
     }
-
-    // 2. 추가 (/write)
-    @Transactional
-    public BoardEntity create(BoardEntity boardEntity) {
-        return repository.save(boardEntity);
-    }
-
-    //3. 수정 "/modify/{id}"
     
-    // 4. 삭제 (/delete/{id})
-    @Transactional
-    public void delete(Long id) {
-        if (!repository.existsById(id)) {
-            throw new RuntimeException("게시글을 찾을 수 없습니다.");
-        }
-        repository.deleteById(id);
+    //DTO -> Entity 변환함수
+    private BoardEntity convertToEntity(BoardDTO boardDTO) {
+    	return BoardEntity.builder()
+    			.id(boardDTO.getId())
+    			.title(boardDTO.getTitle())
+    			.writingTime(boardDTO.getWritingTime())
+    			.content(boardDTO.getContent())
+    			.build();
     }
 }
