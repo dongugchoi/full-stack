@@ -1,57 +1,73 @@
-import React, { useState, useContext } from 'react'
-import { BoardContext } from '../context/BoardContext'
-import CustomInput from '../components/CustomInput'
-import CustomButton from '../components/CustomButton'
-import { useNavigate } from 'react-router-dom'
-
+import React,{useState, useContext} from "react"
+import { BoardContext } from "../context/BoardContext";
+import { useNavigate } from "react-router-dom";
+import CustomInput from "../components/CusomInput";
+import CustomButton from "../components/CustomButton";
+import axios from "axios";
 
 const WritePost = () => {
-    const [title, setTitle] = useState('');
+
+    const navigate = useNavigate();
+
+    const [title,setTitle] = useState('');
     const [author, setAuthor] = useState('');
     const [content, setContent] = useState('');
 
-    const {boardList, setBoardList} = useContext(BoardContext);
-    
+    const {boardList, setBoardList} = useContext(BoardContext)
 
-    const savePost = (e) =>{
+    const savePost= (e) => {
         e.preventDefault();
 
-        const newPost = {
-            id: boardList.length+1,
+    //id는 자동으로 생성
+    //등록날짜는 서버측에서 
+    const newPost = {
             title,
             author,
             content,
-            writingTime:new Date().toLocaleString(),
         }
-        
-        //새로운 게시글을 배열에 추가
-        setBoardList([newPost, ...boardList])
+    
+    // const response = axios.post('http://localhost:9090/api/board/write',newPost,{
+    //     headers:{
+    //         "Content-Type":"application/json"
+    //     },
+    // })
 
-        //작성 후 메인화면으로 이동하기
-        alert("게시물이 등록되었습니다.");
-        Navigate("/");
+    const response = axios('http://localhost:9090/api/board/write',{
+        headers:{
+            "Content-Type":"application/json"
+        },
+        data: JSON.stringify(newPost),
+        method:'post',
+    })
+    console.log(response.data);
+    //작성 후 메인화면으로 이동하기
+    alert("게시물이 등록되었습니다.");
+    navigate("/");
     }
-    const Navigate = useNavigate();
 
-    const backToboard = () => {
-        Navigate("/");
+    const backToBoard = () => {
+        navigate("/");
     }
-
-    return (
+    return(
         <div>
             <h1>글쓰기</h1>
             <form>
-                <CustomInput label="제목" value={title} onchange={(e) => { setTitle(e.target.value) }} />
-                <CustomInput label="작성자" value={author} onchange={(e) => { setAuthor(e.target.value) }} />
-                <CustomInput label="내용" multiline rows={6} value={content} onchange={(e) => setContent(e.target.value)} />
-
+                <CustomInput label="제목" value={title} onChange={(e)=>{setTitle(e.target.value)}}/>
+                <CustomInput label="작성자" value={author} onChange={(e)=>{setAuthor(e.target.value)}}/>
+                <CustomInput
+                    label="내용"
+                    multiline
+                    rows={6}
+                    value={content}
+                    onChange={(e)=>{setContent(e.target.value)}}
+                />
                 <div>
-                    <CustomButton label="저장" onClick={savePost} />
-                    <CustomButton label="취소" variant='outlined' color='secondary' onClick={backToboard} />
+                    <CustomButton label="저장" onClick={savePost}/>
+                    <CustomButton label="취소" variant="outlined" color="secondary" onClick={backToBoard}/>
                 </div>
             </form>
         </div>
-    )
+    );
 }
 
-export default WritePost
+export default WritePost;

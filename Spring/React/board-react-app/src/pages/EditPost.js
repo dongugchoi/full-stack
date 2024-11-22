@@ -1,54 +1,92 @@
-import React, { useContext, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { BoardContext } from '../context/BoardContext';
-import CustomInput from '../components/CustomInput';
-import CustomButton from '../components/CustomButton';
+import React, {useEffect, useState, useContext} from "react";
+import { BoardContext } from "../context/BoardContext";
+import CustomButton from "../components/CustomButton";
+import CustomInput from "../components/CusomInput";
+import { useNavigate,useParams } from "react-router-dom";
+import axios from "axios";
 
 const EditPost = () => {
-    const { id } = useParams(); // URL에서 ID 가져오기
-    const { boardList, setBoardList } = useContext(BoardContext);
     const navigate = useNavigate();
+    const {id} = useParams();
+    const [post, setPost] = useState({})
+    const {boardList,setBoardList} = useContext(BoardContext);
 
-    // 게시글 찾기
-    const post = boardList.find((item) => item.id === parseInt(id));
-    const [title, setTitle] = useState(post ? post.title : '');
-    const [content, setContent] = useState(post ? post.content : '');
+    const {author, title, content} = post;
 
-    if (!post) {
-        return <div>게시글을 찾을 수 없습니다.</div>;
+    useEffect(() => {
+       //수정한 내용을 데이터베이스에 저장
+       const getBoardData = async () => {
+        try {
+          const response = await axios.get(`http://localhost:9090/api/board/get/${id}`);
+          console.log(response);
+          
+          setPost(response.data.data[0]); // 데이터 상태를 업데이트
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+      
+      getBoardData();
+    },[])
+
+    const backToPost = () => {
+        navigate("/post/"+id);
     }
 
-    const handleSave = () => {
-        // 게시글 업데이트
-        const updatedBoardList = boardList.map((item) =>
-            item.id === post.id ? { ...item, title, content } : item
-        );
-        setBoardList(updatedBoardList);
+    const updatePost = async() => {
+        const response = await axios(`http://localhost:9090/api/board/modify/${id}`,{
+            headers:{
+                "Content-Type":"application/json"
+            },
+            data: JSON.stringify(post),
+            method:'put',
+        })
+        console.log(response);
 
-        alert('게시글이 수정되었습니다.');
-        navigate(`/postdetail/${post.id}`); // 수정 후 상세 페이지로 이동
-    };
+        if(response.data){
+            alert('수정이 완료되었습니다.');
+            navigate("/post/"+id);
+        } else {
+            alert('수정에 실패하였습니다.');
+        }
+        
+    }
 
-    return (
+    return(
         <div>
-            <h2>게시글 수정</h2>
-            <CustomInput
-                label="제목"
-                value={title}
-                onchange={(e) => setTitle(e.target.value)}
+            <h1>글 수정하기</h1>
+            <CustomInput label="제목" value={title} onChange={(
+                e => setPost((prevPost) => ({
+                ...prevPost,
+                title : e.target.value,
+            })))}
             />
-            <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                rows="10"
-                style={{ width: '100%', marginTop: '10px', padding: '10px' }}
-            />
-            <div style={{ marginTop: '20px' }}>
-                <CustomButton label="저장" onClick={handleSave} />
-                <CustomButton label="취소" onClick={() => navigate(`/postdetail/${post.id}`)} />
+            <CustomInput label="작성자" value={author} onChange={(
+                e => setPost((prevPost) => ({
+                ...prevPost,
+                author : e.target.value,
+            })))}/>
+            <CustomInput 
+                label="내용" 
+                multiline
+                rows={6}
+                value={content} 
+                onChange={(
+                    e => setPost((prevPost) => ({
+                    ...prevPost,
+                    content : e.target.value,
+                })))}/>
+            <div>
+                <CustomButton label="수정 완료" onClick={updatePost} />
+                <CustomButton 
+                    label="수정 취소" 
+                    variant="outlined" 
+                    color="secondary"
+                    onClick={backToPost}
+                />
             </div>
         </div>
-    );
-};
+    )
+}
 
 export default EditPost;
