@@ -39,7 +39,7 @@ const Login = () => {
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table >
             
         </form>
     )
